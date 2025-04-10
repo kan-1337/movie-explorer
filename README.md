@@ -31,7 +31,7 @@ A React Native mobile application built with Expo and TypeScript that allows use
 
 1. Clone the repository
    ```
-   git clone https://github.com/YOUR_USERNAME/movie-explorer.git
+   git clone https://github.com/kan-1337/movie-explorer.git
    cd movie-explorer
    ```
 

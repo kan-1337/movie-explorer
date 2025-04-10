@@ -12,10 +12,12 @@ import { Movie } from '../types/movie';
 import { MovieCard } from '../components/MovieCard';
 import { getPopularMovies, searchMovies } from '../services/movieService';
 import { RootStackParamList } from '../navigation/types';
+import { useTheme } from '../theme/ThemeContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 export const HomeScreen: React.FC<Props> = ({ navigation }) => {
+  const { theme } = useTheme();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -57,13 +59,17 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <TextInput
-        style={styles.searchInput}
+        style={[styles.searchInput, { 
+          backgroundColor: theme.colors.searchBar,
+          borderColor: theme.colors.border,
+          color: theme.colors.searchBarText
+        }]}
         placeholder="Search movies..."
         value={searchQuery}
         onChangeText={setSearchQuery}
-        placeholderTextColor="#666"
+        placeholderTextColor={theme.colors.secondaryText}
       />
       <FlatList
         data={movies}
@@ -77,7 +83,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }
         ListFooterComponent={
-          loading ? <ActivityIndicator size="large" color="#0000ff" /> : null
+          loading ? <ActivityIndicator size="large" color={theme.colors.loading} /> : null
         }
       />
     </View>
@@ -87,14 +93,13 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    // Background color is now applied dynamically using theme
   },
   searchInput: {
     margin: 10,
     padding: 10,
-    backgroundColor: '#fff',
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: '#ddd',
+    // Colors are now applied dynamically using theme
   },
 });

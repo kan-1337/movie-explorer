@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { Movie } from '../types/movie';
 import { getImageUrl } from '../services/movieService';
+import { useTheme } from '../theme/ThemeContext';
 
 interface MovieCardProps {
   movie: Movie;
@@ -9,9 +10,10 @@ interface MovieCardProps {
 }
 
 export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress }) => {
+  const { theme } = useTheme();
   return (
     <TouchableOpacity
-      style={styles.card}
+      style={[styles.card, { backgroundColor: theme.colors.card }]}
       onPress={() => onPress(movie)}
       activeOpacity={0.7}
     >
@@ -20,12 +22,12 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress }) => {
         source={{ uri: getImageUrl(movie.poster_path) }}
       />
       <View style={styles.info}>
-        <Text style={styles.title} numberOfLines={2}>
+        <Text style={[styles.title, { color: theme.colors.text }]} numberOfLines={2}>
           {movie.title}
         </Text>
         <View style={styles.ratingContainer}>
-          <Text style={styles.rating}>⭐ {movie.vote_average.toFixed(1)}</Text>
-          <Text style={styles.votes}>({movie.vote_count})</Text>
+          <Text style={[styles.rating, { color: theme.colors.rating }]}>⭐ {movie.vote_average.toFixed(1)}</Text>
+          <Text style={[styles.votes, { color: theme.colors.secondaryText }]}>({movie.vote_count})</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -34,7 +36,6 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie, onPress }) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
     borderRadius: 10,
     margin: 8,
     elevation: 3,
@@ -63,11 +64,9 @@ const styles = StyleSheet.create({
   },
   rating: {
     fontSize: 14,
-    color: '#666',
     marginRight: 5,
   },
   votes: {
     fontSize: 12,
-    color: '#999',
   },
 });
