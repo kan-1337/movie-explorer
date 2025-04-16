@@ -1,0 +1,50 @@
+name: Build, Test and Deploy to Firebase
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: npm test
+        
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
+        
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+        
+      - name: Build web app
+        run: npx expo export:web
+        
+      - name: Setup Firebase CLI
+        uses: w9jds/firebase-action@master
+        with:
+          args: setup:web
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}

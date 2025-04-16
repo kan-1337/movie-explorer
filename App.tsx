@@ -42,12 +42,18 @@ function MainApp() {
           options={({ navigation }) => ({
             title: 'Movie Explorer',
             headerRight: () => (
-              <View style={{ flexDirection: 'row' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TouchableOpacity 
-                  style={{ marginRight: 15 }}
+                  style={{ 
+                    marginRight: 15, 
+                    padding: 10, // Add padding to increase touch area
+                    backgroundColor: theme.colors.card,
+                    borderRadius: 8
+                  }}
                   onPress={() => navigation.navigate('Profile')}
+                  activeOpacity={0.7} // Add feedback when pressed
                 >
-                  <Text style={{ fontSize: 16, color: theme.colors.primary }}>Profile</Text>
+                  <Text style={{ fontSize: 16, color: theme.colors.primary, fontWeight: 'bold' }}>Profile</Text>
                 </TouchableOpacity>
                 <ThemeToggle />
               </View>

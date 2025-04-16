@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "movieexplorerexpo"
+  },
+  "targets": {
+    "movieexplorerexpo": {
+      "hosting": {
+        "movieexplorerexpo": [
+          "movieexplorerexpo"
+        ]
+      }
+    }
+  }
+}
